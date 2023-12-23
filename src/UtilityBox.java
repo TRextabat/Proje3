@@ -56,6 +56,33 @@ public class UtilityBox
         }
         return false;
     }
+    public static char[] convertListToArray(List<Character> charList) {
+        // Check for null or empty list
+        if (charList == null || charList.isEmpty()) {
+            return new char[0]; // Return an empty array
+        }
+
+        // Convert List<Character> to char[]
+        char[] charArray = new char[charList.size()];
+        for (int i = 0; i < charList.size(); i++) {
+            charArray[i] =Character.toUpperCase(charList.get(i));
+        }
+
+        return charArray;
+    }
+    public static boolean contains(char[] arr , char target)
+    {
+        for (int i = 0 ; i < arr.length ; i ++)
+        {
+            
+            if (arr[i] == target)
+            {
+                return true;
+            }
+            
+        }
+        return false;
+    }
     public static int getLengthWithoutRepetition(String[] array) 
     {
         // Use a HashSet to keep track of unique elements
@@ -88,6 +115,36 @@ public class UtilityBox
             return input; // If there is no space, return the original string
         }
     }
+    public static void iterateSortedArray(UM_Alani[] array , UM_Tree tree) {
+        iterateSortedArray(array, 0, array.length - 1 , tree);
+    }
+
+    private static void iterateSortedArray(UM_Alani[] array, int start, int end , UM_Tree tree) {
+        if (start <= end) {
+            int middle = (start + end) / 2;
+            Node node = new Node(array[middle]);
+            tree.insert(node);
+            
+
+            iterateSortedArray(array, start, middle - 1,tree); // Left half
+            iterateSortedArray(array, middle + 1, end,tree);   // Right half
+        }
+    }
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap arr[j] and arr[j+1]
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    
     
     
 }
