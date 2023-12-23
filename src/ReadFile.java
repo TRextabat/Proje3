@@ -45,10 +45,14 @@ public class ReadFile {
                 if (line == null)break;
                 line = line.replace("(", "@");
                 line = line.replace(")", "@");
+                
                 element = line.split("@");
                 
-
-                mirasInfo = new UM_Alani(UtilityBox.removePrefix(element[0]), Arrays.asList(element[1].split("\\,")), Integer.parseInt(element[2].trim()));
+                List<String> dis = Arrays.asList(element[3].split(" "));
+                
+                //System.out.println(dis.get(0));
+                mirasInfo = new UM_Alani(UtilityBox.removePrefix(element[0]), Arrays.asList(element[1].split("\\,")), Integer.parseInt(element[2].trim()) , dis);
+                if (mirasInfo.getDiscription() == null)System.out.println(element[0]);
                 List<UM_Alani> changedlist;
                 String ilName;
                 UM_Alani newMiras;
@@ -70,7 +74,7 @@ public class ReadFile {
                                 List<String> newIl = new ArrayList<>();
                                 newIl.add(ilName);
                                 try{
-                                    newMiras = new UM_Alani(itemArray[1], newIl, mirasInfo.getIlan_Yili());
+                                    newMiras = new UM_Alani(itemArray[1], newIl, mirasInfo.getIlan_Yili(), null);
                                 }
                                 catch(IndexOutOfBoundsException e){
                                     newMiras = mirasInfo;

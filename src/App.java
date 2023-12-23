@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Hashtable;
@@ -10,62 +12,71 @@ public class App {
         String filePath = "data.txt";
         ReadFile file = new ReadFile(filePath);
         List<List<UM_Alani>> result = file.getMiras();
-        UM_Alani temp = new UM_Alani("", null, 0);
-        Node Node = new Node(new UM_Alani(filePath, null, 0));
+        UM_Alani temp = new UM_Alani("", null, 0,null);
+        
         Node root = new Node(temp);
+        List<UM_Alani> sortedAlanNameList = new ArrayList<>();
         // hashtable
         Hashtable<String, UM_Alani> umAlanTable = new Hashtable<>();
 
         for (List<UM_Alani> item : result) {
             for (UM_Alani item2 : item) {
-                // System.out.println(temp.getAlan_Adi().compareTo(item2.getAlan_Adi()));
+               
 
                 Node newTreeNode = new Node(item2);
                 tree.insert(newTreeNode).getData().toString();
-                // System.out.println(newTreeNode.getData().toString());
-                //
-                // System.out.println(tree.getDepth());
+     
                 temp = item2;
                 root = tree.getRoot();
-                // System.out.println(root.getData().toString());
+                sortedAlanNameList.add(item2);
+               
 
-                // if(root != null){
-                // System.out.println(root.getLeft().getData().toString());
-                // System.out.println(root.getRight().getData().toString());}
-                // else{System.out.println("HUH?!?!?");}
-                // tree.iterate(root, "");
-
-                // add to hashtable
                 addToHashtable(umAlanTable, item2);
-                updateName(umAlanTable);
+                //updateName(umAlanTable);
+                
 
             }
 
             System.out.println("******************************");
 
         }
-        tree.iterate(root, "----H");
-        System.out.println(tree.getDepth());
-        UM_Tree testTree = new UM_Tree();
 
-        String[] alphabetArray = new String[] {
-                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-                "V", "W", "X", "Y", "Z"
-        };
+        tree.iterate();
+        Collections.sort(sortedAlanNameList, Comparator.comparing(UM_Alani::getAlan_Adi));
+        UM_Alani[] sortedAlanNameArray = sortedAlanNameList.toArray(new UM_Alani[0]);
+        UM_Tree newTree = new UM_Tree();
+        UtilityBox.iterateSortedArray(sortedAlanNameArray , newTree);
+        
+        System.out.println(tree.findDepth());
+        System.out.println(String.format("%s %d","the tree depth is :",tree.findDepth()));
+        System.out.println(String.format("%s %d","number of nodes is  :",tree.getNodeCount()));
+        System.out.println(String.format("%s %s","root name is  :",tree.getRoot().getData().getAlan_Adi()));
+        System.out.println(String.format("%s %d","theoretical tree depth when balanced :",tree.depthWhenBalanced()));
+        tree.iterateAlphabeticLimited();
+        newTree.iterate();
+        System.out.println(String.format("%s %d","balanced tree depth is :",newTree.findDepth()));
 
-        // Convert the array to a list for easy shuffling
-        List<String> alphabetList = Arrays.asList(alphabetArray);
-
-        // Shuffle the list
-        Collections.shuffle(alphabetList);
-        for (int i = 0; i < alphabetList.size(); i++) {
-            Node newNode = new Node(new UM_Alani(alphabetList.get(i), null, i));
-            testTree.insert(newNode);
-
-        }
-        testTree.iterate(testTree.getRoot(), "----H");
-        System.out.println(testTree.getDepth());
+        
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static void addToHashtable(Hashtable<String, UM_Alani> hashtable, UM_Alani umAlan) {
         hashtable.put(umAlan.getAlan_Adi(), umAlan);
